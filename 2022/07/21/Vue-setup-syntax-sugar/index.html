@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Andy">
+
+
+
+
+
+<title>VUE3 語法糖 | AndyBlog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Andy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">category</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Andy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">category</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">VUE3 語法糖</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Andy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 21, 2022&nbsp;&nbsp;14:16:42</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/Category/Vue/">Vue</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="1-Vue3-的一大特性函数-—-setup"><a href="#1-Vue3-的一大特性函数-—-setup" class="headerlink" title="1. Vue3 的一大特性函数 —- setup"></a><font color='red'>1. Vue3 的一大特性函数 —- setup</font></h3><ul>
+<li><strong>說明: setup函数是 Composition API（组合API）的入口</strong></li>
+</ul>
+<br>
+
+<h3 id="2-data-輸出到-Template-採用兩種函數"><a href="#2-data-輸出到-Template-採用兩種函數" class="headerlink" title="2. data 輸出到 Template 採用兩種函數"></a><font color='red'>2. data 輸出到 Template 採用兩種函數</font></h3><ul>
+<li><p><strong><font color='e59911'>1. ref函数 (使用常量居多)</font></strong></p>
+<p>  <strong>ref 是一个函数，它接受一个参数，返回的就是一个神奇的 响应式对象 。我们初始化的这个 0 作为参数包裹到这个对象中去</strong><br>  <strong>，在未来可以检测到改变并作出对应的相应</strong></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=<span class="string">&quot;ts&quot;</span>&gt;</span><br><span class="line">	<span class="keyword">const</span> name = <span class="title function_">ref</span>(<span class="string">&quot;123&quot;</span>)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li><p><strong><font color='e59911'>2. reactive函数 (使用物件為主)</font></strong><br>  <strong>使用 ref 还是 reactive 可以选择这样的准则</strong><br>  <strong>第一，就像刚才的原生 javascript 的代码一样，像你平常写普通的 js 代码选择原始类型和对象类型一样来选&gt; 择是使用 ref 还是 reactive。</strong></p>
+<p>  <strong>第二，所有场景都使用 reactive，但是要记得使用 toRefs 保证 reactive 对象属性保持响应性。</strong></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=<span class="string">&quot;ts&quot;</span>&gt;</span><br><span class="line"><span class="keyword">const</span> name = <span class="title function_">reactive</span>(&#123;</span><br><span class="line">                        <span class="attr">name</span>:<span class="string">&quot;123&quot;</span>,</span><br><span class="line">                        <span class="attr">age</span>:<span class="number">20</span></span><br><span class="line">                     &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="3-生命週期鉤子"><a href="#3-生命週期鉤子" class="headerlink" title="3. 生命週期鉤子"></a><font color='red'>3. 生命週期鉤子</font></h3><ul>
+<li><strong>vue2 跟 vue3 對應</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><h3>vue2</h3></th>
+<th align="center"><h3>vue3</h3></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>beforeCreate</strong></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"><strong>created</strong></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"><strong>beforeMount</strong></td>
+<td align="center"><strong>onBeforeMount</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>mounted</strong></td>
+<td align="center"><strong>onMounted</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>beforeUpdate</strong></td>
+<td align="center"><strong>onBeforeUpdate</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>updated</strong></td>
+<td align="center"><strong>onUpdated</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>beforeUnmount</strong></td>
+<td align="center"><strong>onBeforeUnmount</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>unmounted</strong></td>
+<td align="center"><strong>onUnmounted</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>errorCaptured</strong></td>
+<td align="center"><strong>onErrorCaptured</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>renderTracked</strong></td>
+<td align="center"><strong>onRenderTracked</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>renderTriggered</strong></td>
+<td align="center"><strong>onRenderTriggered</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>activated</strong></td>
+<td align="center"><strong>onActivated</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>deactivated</strong></td>
+<td align="center"><strong>onDeactivated</strong></td>
+</tr>
+</tbody></table>
+<br>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=<span class="string">&quot;ts&quot;</span>&gt;</span><br><span class="line">	<span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Component is mounted!&#x27;</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Andy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/07/21/Vue-setup-syntax-sugar/">http://example.com/2022/07/21/Vue-setup-syntax-sugar/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/07/21/Vue-basic-theory/">VUE 基礎理論</a>
+            
+            
+            <a class="next" rel="next" href="/2022/07/21/Vue-axios-repackage/">VUE axios 重新包裝</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Andy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

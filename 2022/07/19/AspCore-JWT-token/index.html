@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Andy">
+
+
+
+
+
+<title>JWT 驗證 及 創建 token | AndyBlog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Andy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">category</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Andy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">category</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JWT 驗證 及 創建 token</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Andy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 19, 2022&nbsp;&nbsp;11:00:35</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/Category/Asp-net-core/">Asp.net core</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h5 id="使用的套件-Microsoft-AspNetCore-Authentication-JwtBearer"><a href="#使用的套件-Microsoft-AspNetCore-Authentication-JwtBearer" class="headerlink" title="使用的套件: Microsoft.AspNetCore.Authentication.JwtBearer"></a>使用的套件: <font color='red'>Microsoft.AspNetCore.Authentication.JwtBearer</font></h5><br>
+
+<h3 id="創建TOKEN"><a href="#創建TOKEN" class="headerlink" title="創建TOKEN"></a><font color='red'>創建TOKEN</font></h3><ul>
+<li><strong>1. 先在 專案裡面 添加一個 JWT類 代碼如下：</strong></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Security.Claims;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.IdentityModel.Tokens.Jwt;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Configuration;</span><br><span class="line"><span class="keyword">using</span> Microsoft.IdentityModel.Tokens;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">test2</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">JWT</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> IConfiguration Configuration;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">JWT</span>(<span class="params">IConfiguration configuration</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">this</span>.Configuration = configuration;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GenerateToken</span>(<span class="params"><span class="built_in">string</span> userName, <span class="built_in">int</span> expireMinutes = <span class="number">30</span></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 獲取在 appsettiongs.json 裡面設定好的資訊</span></span><br><span class="line">            <span class="keyword">var</span> issuer = Configuration.GetValue&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;Jwt:Issuer&quot;</span>);</span><br><span class="line">            <span class="keyword">var</span> signKey = Configuration.GetValue&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;KEY:skey&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Configuring &quot;Claims&quot; to your JWT Token</span></span><br><span class="line">            <span class="keyword">var</span> claims = <span class="keyword">new</span> List&lt;Claim&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// In RFC 7519 (Section#4), there are defined 7 built-in Claims, but we mostly use 2 of them.</span></span><br><span class="line">            <span class="comment">//claims.Add(new Claim(JwtRegisteredClaimNames.Iss, issuer));</span></span><br><span class="line">            claims.Add(<span class="keyword">new</span> Claim(JwtRegisteredClaimNames.Sub, userName)); <span class="comment">// User.Identity.Name</span></span><br><span class="line">            <span class="comment">//claims.Add(new Claim(JwtRegisteredClaimNames.Aud, &quot;The Audience&quot;));</span></span><br><span class="line">            claims.Add(<span class="keyword">new</span> Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddMinutes(<span class="number">20</span>).ToUnixTimeSeconds().ToString()));</span><br><span class="line">            <span class="comment">//claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())); // 必須為數字</span></span><br><span class="line">            <span class="comment">//claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())); // 必須為數字</span></span><br><span class="line">            claims.Add(<span class="keyword">new</span> Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())); <span class="comment">// JWT ID</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// The &quot;NameId&quot; claim is usually unnecessary.</span></span><br><span class="line">            <span class="comment">//claims.Add(new Claim(JwtRegisteredClaimNames.NameId, userName));</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// This Claim can be replaced by JwtRegisteredClaimNames.Sub, so it&#x27;s redundant.</span></span><br><span class="line">            <span class="comment">//claims.Add(new Claim(ClaimTypes.Name, userName));</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// <span class="doctag">TODO:</span> You can define your &quot;roles&quot; to your Claims.</span></span><br><span class="line">            <span class="comment">// claims.Add(new Claim(&quot;roles&quot;, &quot;Admin&quot;));</span></span><br><span class="line">            <span class="comment">//claims.Add(new Claim(&quot;roles&quot;, &quot;Users&quot;));</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> userClaimsIdentity = <span class="keyword">new</span> ClaimsIdentity(claims);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Create a SymmetricSecurityKey for JWT Token signatures</span></span><br><span class="line">            <span class="keyword">var</span> securityKey = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));</span><br><span class="line"></span><br><span class="line">            <span class="comment">// HmacSha256 MUST be larger than 128 bits, so the key can&#x27;t be too short. At least 16 and more characters.</span></span><br><span class="line">            <span class="comment">// https://stackoverflow.com/questions/47279947/idx10603-the-algorithm-hs256-requires-the-securitykey-keysize-to-be-greater</span></span><br><span class="line">            <span class="keyword">var</span> signingCredentials = <span class="keyword">new</span> SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Create SecurityTokenDescriptor</span></span><br><span class="line">            <span class="keyword">var</span> tokenDescriptor = <span class="keyword">new</span> SecurityTokenDescriptor</span><br><span class="line">            &#123;</span><br><span class="line">                Issuer = issuer,</span><br><span class="line">                <span class="comment">//Audience = issuer, // Sometimes you don&#x27;t have to define Audience.</span></span><br><span class="line">                <span class="comment">//NotBefore = DateTime.Now, // Default is DateTime.Now</span></span><br><span class="line">                <span class="comment">//IssuedAt = DateTime.Now, // Default is DateTime.Now</span></span><br><span class="line">                Subject = userClaimsIdentity,</span><br><span class="line">                <span class="comment">//Expires = DateTime.Now.AddMinutes(expireMinutes),</span></span><br><span class="line">                SigningCredentials = signingCredentials</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Generate a JWT securityToken, than get the serialized Token result (string)</span></span><br><span class="line">            <span class="keyword">var</span> tokenHandler = <span class="keyword">new</span> JwtSecurityTokenHandler();</span><br><span class="line">            <span class="keyword">var</span> securityToken = tokenHandler.CreateToken(tokenDescriptor);</span><br><span class="line">            <span class="keyword">var</span> serializeToken = tokenHandler.WriteToken(securityToken);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> serializeToken;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li><strong>2. 接下來是到 Program.cs 註冊JWT類 需放在 var app &#x3D; builder.Build(); 之前  代碼如下：</strong></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddSingleton&lt;JWT&gt;();</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li><strong>3. 在 appsettings.json 設定 自己的私鑰 例：</strong></li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;KEY&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;skey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1234567890123456&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;Jwt&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;Issuer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test2Demo&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li><strong>4. 接下來 在 controller 裡面 創建 JWT類 的空變量, 並且在建構函數設定 啟動 controller 時候注入 並且賦值到 創建好的JWT空變量</strong></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> JWT jwt;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserController</span>(<span class="params">JWT _jwt</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        jwt=_jwt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;		</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="驗證TOKEN"><a href="#驗證TOKEN" class="headerlink" title="驗證TOKEN"></a><font color='red'>驗證TOKEN</font></h3><ul>
+<li><strong>1. 請求上面 加入這段 [Authorize] 便會判斷 請求是需要 TOKEN 驗證的, [AllowAnonymous] 則允許未經驗證的使用者存取個別動作</strong></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 需要驗證</span></span><br><span class="line">[<span class="meta">Authorize</span>]</span><br><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult&lt;User&gt; <span class="title">Index</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不需要驗證</span></span><br><span class="line">[<span class="meta">AllowAnonymous</span>]</span><br><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult&lt;User&gt; <span class="title">Index</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li><strong>2. 接下來在 var app &#x3D; builder.Build() 之前 加入這段驗證確認設定;</strong></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">builder.Services</span><br><span class="line">    <span class="comment">// .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</span></span><br><span class="line">    .AddAuthentication(options =&gt;&#123;</span><br><span class="line">                <span class="comment">// 設定使用者預設的 Authenticate、authentication challenge 的 Scheme 都設定為 JwtBearerDefaults.AuthenticationScheme</span></span><br><span class="line">                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;</span><br><span class="line">                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;</span><br><span class="line">                &#125;)</span><br><span class="line">    .AddJwtBearer(options =&gt;  &#123;</span><br><span class="line">        <span class="comment">// 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因</span></span><br><span class="line">        options.IncludeErrorDetails = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        options.TokenValidationParameters = <span class="keyword">new</span> TokenValidationParameters</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 透過這項宣告，就可以從 &quot;sub&quot; 取值並設定給 User.Identity.Name</span></span><br><span class="line">            NameClaimType = <span class="string">&quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier&quot;</span>,</span><br><span class="line">            <span class="comment">// 透過這項宣告，就可以從 &quot;roles&quot; 取值，並可讓 [Authorize] 判斷角色</span></span><br><span class="line">            RoleClaimType = <span class="string">&quot;http://schemas.microsoft.com/ws/2008/06/identity/claims/role&quot;</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 一般我們都會驗證 Issuer</span></span><br><span class="line">            ValidateIssuer = <span class="literal">true</span>,</span><br><span class="line">            ValidIssuer = builder.Configuration.GetValue&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;Jwt:Issuer&quot;</span>),</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 通常不太需要驗證 Audience</span></span><br><span class="line">            ValidateAudience = <span class="literal">false</span>,</span><br><span class="line">            <span class="comment">//ValidAudience = &quot;JwtAuthDemo&quot;, // 不驗證就不需要填寫</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 一般我們都會驗證 Token 的有效期間</span></span><br><span class="line">            ValidateLifetime = <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已</span></span><br><span class="line">            ValidateIssuerSigningKey = <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">// &quot;1234567890123456&quot; 應該從 IConfiguration 取得</span></span><br><span class="line">            IssuerSigningKey = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;KEY:skey&quot;</span>)))</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<ul>
+<li><strong>3. 再之後在 app.UseHttpsRedirection(); 後面 加入這兩行</strong></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 驗證中間件，以服務容器註冊的驗證服務檢查是否有驗證</span></span><br><span class="line">app.UseAuthentication();</span><br><span class="line"><span class="comment">// 授權中間件，從驗證資訊、路由對應、授權設定判斷是否能夠存取所要求的資源</span></span><br><span class="line">app.UseAuthorization();</span><br></pre></td></tr></table></figure>
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Andy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/07/19/AspCore-JWT-token/">http://example.com/2022/07/19/AspCore-JWT-token/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/07/19/AspCore-FrontEnd-with-BackEnd-Online/">上線使用後端搭配前端</a>
+            
+            
+            <a class="next" rel="next" href="/2022/07/19/AspCore-appsettings-set/">組態設定 appsettings.json</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Andy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

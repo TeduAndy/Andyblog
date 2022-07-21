@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Andy">
+
+
+
+
+
+<title>Dapper 使用介紹 | AndyBlog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Andy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">category</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Andy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">category</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Dapper 使用介紹</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Andy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 19, 2022&nbsp;&nbsp;9:27:01</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/Category/Asp-net-core/">Asp.net core</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="說明："><a href="#說明：" class="headerlink" title="說明："></a><strong><font color='red'>說明：</font></strong></h4><ul>
+<li><strong>Dapper輕量級的 ORM，必須要自己定義 C# class、管理連線、自己寫 SQL，但是套件非常迷你而且效能非常好，很適合已經學會目標資料庫語法的開發者。</strong></li>
+</ul>
+<br>
+
+<h4 id="安裝："><a href="#安裝：" class="headerlink" title="安裝："></a><strong><font color='red'>安裝：</font></strong></h4><p><strong>1. 專案點右鍵 -&gt; 管理 NuGet 套件</strong></p>
+<p><strong>2.</strong> <strong>收尋 1. <a target="_blank" rel="noopener" href="https://www.nuget.org/packages/Dapper">Dapper</a> and 1. <a target="_blank" rel="noopener" href="https://www.nuget.org/packages/MySqlConnector/">MySQL Connector</a> 並且安裝</strong></p>
+<br>
+
+<h4 id="Dapper-連線"><a href="#Dapper-連線" class="headerlink" title="Dapper 連線 :"></a><strong><font color='red'>Dapper 連線 :</font></strong></h4><ul>
+<li><strong>1. 定義一個用來接資料的 Model 類別：</strong><br>  <strong>Dapper 支援泛型，只要把指定的型別告訴 Dapper，而且類別的屬性與 MySQL 的欄位有對上，Dapper 就會自動幫我們把取回來的資料放進 Model 類別。</strong></li>
+</ul>
+<br>
+
+<ul>
+<li><strong>2.開啟一個 MySQL 連線：</strong><br>  <strong>用 <code>var _db = new MySqlConnection(&quot;連線資訊&quot;);</code><br>  就能開啟連線。比較需要注意的是，最好用注入組態設定的方法取得連線資訊，以及用 using 語法自動幫我們關閉連線，以免忘記關閉造成連線被占用</strong></li>
+</ul>
+<br>
+
+<ul>
+<li><strong>3.連線資訊設定：</strong><br> <strong>在專案新增一個空類 名叫 serverMq.cs 裡面是用來填入 我們從組態設定抓來的 連線字串</strong><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">servermq</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">string</span> ConnectionString &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<center style="font-weight:600"> 到 appsettings.json 組態設定裡面 新增 mysql 連線字串</center></li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;AllowedHosts&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;MySQL&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;ConnectionString&quot;</span><span class="punctuation">:</span> <span class="string">&quot;server=127.0.0.1;userid=用戶名字;password=密碼;database=連線的資料庫名字;&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<center style="font-weight:600"> 然後在 Program.cs 裡面設定 啟動時 抓取 連線字串 並且 注入到 我設定好的容器</center>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.Configure&lt;servermq&gt;(builder.Configuration.GetSection(<span class="string">&quot;MySQL&quot;</span>));</span><br></pre></td></tr></table></figure>
+<center style="font-weight:600"> 然後在 controller 裡面的 controller建構函數 啟動時 把 注入的 servermq 注入到 設定好的空 _options</center>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">readonly</span> servermq _options;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">UserController</span>(<span class="params">IOptions&lt;servermq&gt; options</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	_options = options.Value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取 連線字串</span></span><br><span class="line"><span class="keyword">var</span> _db = <span class="keyword">new</span> MySqlConnection(_options.ConnectionString);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 便可以連接到 mysql </span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="Dapper使用"><a href="#Dapper使用" class="headerlink" title="Dapper使用: "></a><strong><font color='red'>Dapper使用: </font></strong></h4><br>
+
+<h5 id="1-Dapper-Query"><a href="#1-Dapper-Query" class="headerlink" title=" 1. Dapper - Query "></a><strong><font color='orange'> 1. Dapper - Query </font></strong></h5><p><strong>光是查詢Dapper就提供了很多種方法可以使用，很多方法都跟Lambda用法一樣。</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#Query"><strong>Query</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#QueryFirst"><strong>QueryFirst</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#QueryFirstOrDefault"><strong>QueryFirstOrDefault</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#QuerySingle"><strong>QuerySingle</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#QuerySingleOrDefault"><strong>QuerySingleOrDefault</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#QueryMultiple"><strong>QueryMultiple</strong></a></li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;MyModel&gt; results = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">using</span> (SqlConnection conn = <span class="keyword">new</span> SqlConnection(strConnection))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">string</span> strSql =<span class="string">&quot;Select * from Users&quot;</span> ;</span><br><span class="line">	results = conn.Query&lt;MyModel&gt;(strSql).ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h5 id="2-Dapper-Execute"><a href="#2-Dapper-Execute" class="headerlink" title=" 2. Dapper - Execute "></a><strong><font color='orange'> 2. Dapper - Execute </font></strong></h5><p><strong>執行Insert、Update、Delete、Stored Procedure時使用。</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#Stored%20Procedure"><strong>Stored Procedure</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#INSERT%20statement"><strong>INSERT statement</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#UPDATE%20statement"><strong>UPDATE statement</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/OldNick/2018/01/15/Dapper#DELETE%20statement"><strong>DELETE statement</strong></a></li>
+</ul>
+<p><strong>新增多筆範例 (修改\刪除也是同一種方法, 只是 sql 不同)</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新增多筆範例</span></span><br><span class="line"><span class="keyword">using</span> (SqlConnection conn = <span class="keyword">new</span> SqlConnection(strConnection))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">string</span> strSql =<span class="string">&quot;INSERT INTO Users(col1,col2) VALUES (@c1,@c2);&quot;</span> ;</span><br><span class="line">	<span class="comment">//新增多筆參數</span></span><br><span class="line">	<span class="built_in">dynamic</span> datas = <span class="keyword">new</span> []&#123; <span class="keyword">new</span> &#123; c1 = <span class="string">&quot;A&quot;</span>, c2 = <span class="string">&quot;A2&quot;</span> &#125;</span><br><span class="line">				, <span class="keyword">new</span> &#123; c1 = <span class="string">&quot;B&quot;</span>, c2 = <span class="string">&quot;B2&quot;</span> &#125;</span><br><span class="line">				, <span class="keyword">new</span> &#123; c1 = <span class="string">&quot;C&quot;</span>, c2 = <span class="string">&quot;C2&quot;</span> &#125;&#125;;</span><br><span class="line">	conn.Execute( strSql, datas);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h5 id="3-Dapper-Async"><a href="#3-Dapper-Async" class="headerlink" title=" 3. Dapper - Async "></a><strong><font color='orange'> 3. Dapper - Async </font></strong></h5><p><strong>非同步方法Dapper也是有提供，寫法只有一點點不一樣而已。</strong></p>
+<ul>
+<li><strong>ExecuteAsync</strong></li>
+<li><strong>QueryAsync</strong></li>
+<li><strong>QueryFirstAsync</strong></li>
+<li><strong>QueryFirstOrDefaultAsync</strong></li>
+<li><strong>QuerySingleAsync</strong></li>
+<li><strong>QuerySingleOrDefaultAsync</strong></li>
+<li><strong>QueryMultipleAsync</strong></li>
+</ul>
+<p><strong>寫法沒多大改變，除了方法名稱不一樣以外，最大的不同是要.Result</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;MyModel&gt; results = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">using</span> (SqlConnection conn = <span class="keyword">new</span> SqlConnection(strConnection))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">string</span> strSql =<span class="string">&quot;Select * from Users&quot;</span> ;</span><br><span class="line">	<span class="comment">//非同步</span></span><br><span class="line">	results = conn. QueryAsync&lt;MyModel&gt;(strSql).Result.ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Andy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/07/19/AspCore-Dapper/">http://example.com/2022/07/19/AspCore-Dapper/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/07/19/AspCore-LINQ/">LINQ 相關</a>
+            
+            
+            <a class="next" rel="next" href="/2022/07/19/git-common-command/">GIT 常用指令</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Andy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
