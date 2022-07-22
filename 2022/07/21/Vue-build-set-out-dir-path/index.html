@@ -213,12 +213,12 @@
         </header>
 
         <div class="post-content">
-            <h3 id="說明"><a href="#說明" class="headerlink" title="說明:"></a><font color='red'>說明:</font></h3><ul>
+            <h3 id="說明"><a href="#說明" class="headerlink" title="說明:"></a><font color="red">說明:</font></h3><ul>
 <li><strong>輸出時 打包位置 改去別的地方</strong></li>
 </ul>
 <br>
 
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法:"></a><font color='red'>使用方法:</font></h3><ul>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法:"></a><font color="red">使用方法:</font></h3><ul>
 <li><strong>在 vite.config.js 配置文件裡面 的 export default defineConfig 添加這段 build:{outDir: ‘輸出的位置路徑’},  打包時位置便會到輸入的路徑裡面</strong></li>
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">build</span>:&#123;<span class="attr">outDir</span>: <span class="string">&#x27;../covid-19/covid-19/wwwRoot/app&#x27;</span>&#125;, <span class="comment">// 配合輸出到 asp.net core 的 wwwRoot資料下底下</span></span><br><span class="line">	<span class="attr">plugins</span>: [<span class="title function_">vue</span>()],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

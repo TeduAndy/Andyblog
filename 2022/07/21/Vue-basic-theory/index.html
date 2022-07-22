@@ -213,10 +213,10 @@
         </header>
 
         <div class="post-content">
-            <h3 id="1-Vue的双向数据绑定原理"><a href="#1-Vue的双向数据绑定原理" class="headerlink" title="1. Vue的双向数据绑定原理:"></a><font color='red'>1. Vue的双向数据绑定原理:</font></h3><p>   <strong>Vue是采用数据劫持结合发布订阅模式，通过Object.defineProperty()来劫持各个属性的getter,setter,</strong><br>   <strong>在数据变动时发布消息给订阅者，触发相应的回调函数，从而实现数据双向绑定。</strong></p>
+            <h3 id="1-Vue的双向数据绑定原理"><a href="#1-Vue的双向数据绑定原理" class="headerlink" title="1. Vue的双向数据绑定原理:"></a><font color="red">1. Vue的双向数据绑定原理:</font></h3><p>   <strong>Vue是采用数据劫持结合发布订阅模式，通过Object.defineProperty()来劫持各个属性的getter,setter,</strong><br>   <strong>在数据变动时发布消息给订阅者，触发相应的回调函数，从而实现数据双向绑定。</strong></p>
 <br>
 
-<h3 id="2-SPA-单页面的理解，它的优缺点分别是什么？"><a href="#2-SPA-单页面的理解，它的优缺点分别是什么？" class="headerlink" title="2. SPA 单页面的理解，它的优缺点分别是什么？"></a><font color='red'>2. SPA 单页面的理解，它的优缺点分别是什么？</font></h3><p>   <strong>SPA（ single-page application ）仅在 Web 页面初始化时加载相应的 HTML、JavaScript 和 CSS。</strong><br>   <strong>一旦页面加载完成，</strong><br>   <strong>SPA 不会因为用户的操作而进行页面的重新加载或跳转；取而代之的是利用路由机制实现 HTML 内容的变换，UI 与用户的交互，避免页面的重新加载。</strong></p>
+<h3 id="2-SPA-单页面的理解，它的优缺点分别是什么？"><a href="#2-SPA-单页面的理解，它的优缺点分别是什么？" class="headerlink" title="2. SPA 单页面的理解，它的优缺点分别是什么？"></a><font color="red">2. SPA 单页面的理解，它的优缺点分别是什么？</font></h3><p>   <strong>SPA（ single-page application ）仅在 Web 页面初始化时加载相应的 HTML、JavaScript 和 CSS。</strong><br>   <strong>一旦页面加载完成，</strong><br>   <strong>SPA 不会因为用户的操作而进行页面的重新加载或跳转；取而代之的是利用路由机制实现 HTML 内容的变换，UI 与用户的交互，避免页面的重新加载。</strong></p>
 <br>
 
 <ul>
@@ -235,27 +235,27 @@
 </ul>
 <br>
 
-<h3 id="3、v-show-与-v-if-有什么区别？"><a href="#3、v-show-与-v-if-有什么区别？" class="headerlink" title="3、v-show 与 v-if 有什么区别？"></a><font color='red'>3、v-show 与 v-if 有什么区别？</font></h3><ul>
+<h3 id="3、v-show-与-v-if-有什么区别？"><a href="#3、v-show-与-v-if-有什么区别？" class="headerlink" title="3、v-show 与 v-if 有什么区别？"></a><font color="red">3、v-show 与 v-if 有什么区别？</font></h3><ul>
 <li><h4 id="V-if"><a href="#V-if" class="headerlink" title="V-if"></a><strong>V-if</strong></h4> <strong>是真正的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建；</strong><br> <strong>也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。</strong></li>
 <li><h4 id="v-show"><a href="#v-show" class="headerlink" title="v-show"></a><strong>v-show</strong></h4> <strong>就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 的 “display” 属性进行切换。</strong><br> <strong>所以，v-if 适用于在运行时很少改变条件，不需要频繁切换条件的场景；</strong><br> <strong>v-show 则适用于需要非常频繁切换条件的场景。</strong></li>
 </ul>
 <br>
 
-<h3 id="4、谈谈你对-Vue-生命周期的理解？"><a href="#4、谈谈你对-Vue-生命周期的理解？" class="headerlink" title="4、谈谈你对 Vue 生命周期的理解？"></a><font color='red'>4、谈谈你对 Vue 生命周期的理解？</font></h3><ul>
-<li><h4 id="beforeCreate"><a href="#beforeCreate" class="headerlink" title="beforeCreate"></a><strong><font color='e59911' >beforeCreate</font></strong></h4> <strong>组件实例被创建之初，组件的属性生效之前</strong></li>
-<li><h4 id="created"><a href="#created" class="headerlink" title="created"></a><strong><font color='e59911' >created</font></strong></h4> <strong>组件实例已经完全创建，属性也绑定，但真实 dom 还没有生成，$el 还不可用</strong></li>
-<li><h4 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a><strong><font color='e59911' >beforeMount</font></strong></h4> <strong>在挂载开始之前被调用：相关的 render 函数首次被调用</strong></li>
-<li><h4 id="mounted"><a href="#mounted" class="headerlink" title="mounted"></a><strong><font color='e59911' >mounted</font></strong></h4> <strong>el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子</strong></li>
-<li><h4 id="beforeUpdate"><a href="#beforeUpdate" class="headerlink" title="beforeUpdate"></a><strong><font color='e59911' >beforeUpdate</font></strong></h4> <strong>组件数据更新之前调用，发生在虚拟 DOM 打补丁之前</strong></li>
-<li><h4 id="update"><a href="#update" class="headerlink" title="update"></a><strong><font color='e59911' >update</font></strong></h4> <strong>组件数据更新之后</strong></li>
-<li><h4 id="activited"><a href="#activited" class="headerlink" title="activited"></a><strong><font color='e59911' >activited</font></strong></h4> <strong>keep-alive 专属，组件被激活时调用</strong></li>
-<li><h4 id="deactivated"><a href="#deactivated" class="headerlink" title="deactivated"></a><strong><font color='e59911' >deactivated</font></strong></h4> <strong>keep-alive 专属，组件被销毁时调用</strong></li>
-<li><h4 id="beforeDestory"><a href="#beforeDestory" class="headerlink" title="beforeDestory"></a><strong><font color='e59911' >beforeDestory</font></strong></h4> <strong>组件销毁前调用</strong></li>
-<li><h4 id="destoryed"><a href="#destoryed" class="headerlink" title="destoryed"></a><strong><font color='e59911' >destoryed</font></strong></h4> <strong>组件销毁前调用</strong></li>
+<h3 id="4、谈谈你对-Vue-生命周期的理解？"><a href="#4、谈谈你对-Vue-生命周期的理解？" class="headerlink" title="4、谈谈你对 Vue 生命周期的理解？"></a><font color="red">4、谈谈你对 Vue 生命周期的理解？</font></h3><ul>
+<li><h4 id="beforeCreate"><a href="#beforeCreate" class="headerlink" title="beforeCreate"></a><strong><font color="e59911">beforeCreate</font></strong></h4> <strong>组件实例被创建之初，组件的属性生效之前</strong></li>
+<li><h4 id="created"><a href="#created" class="headerlink" title="created"></a><strong><font color="e59911">created</font></strong></h4> <strong>组件实例已经完全创建，属性也绑定，但真实 dom 还没有生成，$el 还不可用</strong></li>
+<li><h4 id="beforeMount"><a href="#beforeMount" class="headerlink" title="beforeMount"></a><strong><font color="e59911">beforeMount</font></strong></h4> <strong>在挂载开始之前被调用：相关的 render 函数首次被调用</strong></li>
+<li><h4 id="mounted"><a href="#mounted" class="headerlink" title="mounted"></a><strong><font color="e59911">mounted</font></strong></h4> <strong>el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子</strong></li>
+<li><h4 id="beforeUpdate"><a href="#beforeUpdate" class="headerlink" title="beforeUpdate"></a><strong><font color="e59911">beforeUpdate</font></strong></h4> <strong>组件数据更新之前调用，发生在虚拟 DOM 打补丁之前</strong></li>
+<li><h4 id="update"><a href="#update" class="headerlink" title="update"></a><strong><font color="e59911">update</font></strong></h4> <strong>组件数据更新之后</strong></li>
+<li><h4 id="activited"><a href="#activited" class="headerlink" title="activited"></a><strong><font color="e59911">activited</font></strong></h4> <strong>keep-alive 专属，组件被激活时调用</strong></li>
+<li><h4 id="deactivated"><a href="#deactivated" class="headerlink" title="deactivated"></a><strong><font color="e59911">deactivated</font></strong></h4> <strong>keep-alive 专属，组件被销毁时调用</strong></li>
+<li><h4 id="beforeDestory"><a href="#beforeDestory" class="headerlink" title="beforeDestory"></a><strong><font color="e59911">beforeDestory</font></strong></h4> <strong>组件销毁前调用</strong></li>
+<li><h4 id="destoryed"><a href="#destoryed" class="headerlink" title="destoryed"></a><strong><font color="e59911">destoryed</font></strong></h4> <strong>组件销毁前调用</strong></li>
 </ul>
 <br>
 
-<h3 id="5、在什么阶段才能访问操作DOM？"><a href="#5、在什么阶段才能访问操作DOM？" class="headerlink" title="5、在什么阶段才能访问操作DOM？"></a><font color='red'>5、在什么阶段才能访问操作DOM？</font></h3><ul>
+<h3 id="5、在什么阶段才能访问操作DOM？"><a href="#5、在什么阶段才能访问操作DOM？" class="headerlink" title="5、在什么阶段才能访问操作DOM？"></a><font color="red">5、在什么阶段才能访问操作DOM？</font></h3><ul>
 <li><h5 id="mounted-中就可以访问操作-DOM"><a href="#mounted-中就可以访问操作-DOM" class="headerlink" title="mounted 中就可以访问操作 DOM"></a><strong>mounted 中就可以访问操作 DOM</strong></h5></li>
 </ul>
 

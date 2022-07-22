@@ -213,10 +213,10 @@
         </header>
 
         <div class="post-content">
-            <h3 id="說明："><a href="#說明：" class="headerlink" title="說明："></a><strong><font color='red'>說明：</font></strong></h3><p><strong>在 appsettings.json 自己所需要的參數 避免在邏輯控制層曝露自己的帳號密碼, 只有在邏輯控制啟動時注入 到 自己寫好的 DTO裡面 並且實例化</strong></p>
+            <h3 id="說明："><a href="#說明：" class="headerlink" title="說明："></a><strong><font color="red">說明：</font></strong></h3><p><strong>在 appsettings.json 自己所需要的參數 避免在邏輯控制層曝露自己的帳號密碼, 只有在邏輯控制啟動時注入 到 自己寫好的 DTO裡面 並且實例化</strong></p>
 <br>
 
-<h3 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a><strong><font color='red'>使用方法：</font></strong></h3><ul>
+<h3 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a><strong><font color="red">使用方法：</font></strong></h3><ul>
 <li><strong>1. 先在 appsettings.json 設定自己需要的 參數 例: 設定了一個 mysql 裡面的 connectionstring</strong></li>
 </ul>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;AllowedHosts&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;MySQL&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;ConnectionString&quot;</span><span class="punctuation">:</span> <span class="string">&quot;server=127.0.0.1;userid=root;password=123456;database=django;&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
