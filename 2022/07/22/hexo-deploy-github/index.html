@@ -213,7 +213,28 @@
         </header>
 
         <div class="post-content">
-            <h3 id="TEST123"><a href="#TEST123" class="headerlink" title="TEST123"></a>TEST123</h3>
+            <h2 id="GitHub-產生站點專案"><a href="#GitHub-產生站點專案" class="headerlink" title="GitHub 產生站點專案"></a>GitHub 產生站點專案</h2><h4 id="1-先點-Github-官網跟著圖片點"><a href="#1-先點-Github-官網跟著圖片點" class="headerlink" title="1. 先點 Github 官網跟著圖片點"></a><font color='e59911'>1. 先點 Github 官網跟著圖片點</font></h4><p><strong>第一步 點擊 repositories</strong><br><img src="/Andyblog/hexo-deploy-github/github1.png"></p>
+<br>
+
+<p><strong>第二步 點new 產生站點專案</strong><br><img src="/Andyblog/hexo-deploy-github/github2.png"></p>
+<br>
+
+<p><strong>第三步 在橘色文字那邊輸入 你的用戶名 + github.io 然後按 create repository</strong><br><img src="/Andyblog/hexo-deploy-github/github3.png"></p>
+<br>
+
+<p><strong>第四步 點擊 Your repositories 點選 剛創建的專案 點選 code 會得到 部屬會用到網址</strong><br><img src="/Andyblog/hexo-deploy-github/github4.png"></p>
+<h2 id="hexo-專案-設置部分"><a href="#hexo-專案-設置部分" class="headerlink" title="hexo 專案 設置部分"></a>hexo 專案 設置部分</h2><h4 id="1-hexo-部屬前需安裝的套件"><a href="#1-hexo-部屬前需安裝的套件" class="headerlink" title="1. hexo 部屬前需安裝的套件"></a><font color='e59911'>1. hexo 部屬前需安裝的套件</font></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="2-修改根目錄的-config-yml檔案"><a href="#2-修改根目錄的-config-yml檔案" class="headerlink" title="2. 修改根目錄的_config.yml檔案"></a><font color='e59911'>2. 修改根目錄的_config.yml檔案</font></h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">&quot;git&quot;</span> <span class="string">//</span> <span class="string">類別請寫</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/username/username.github.io.git</span> <span class="string">//</span> <span class="string">github專案位置</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span>  <span class="string">//</span> <span class="string">上傳到此專案的哪一個分支，通常都是</span> <span class="string">master</span> </span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="3-輸入指令部屬上傳"><a href="#3-輸入指令部屬上傳" class="headerlink" title="3. 輸入指令部屬上傳"></a><font color='e59911'>3. 輸入指令部屬上傳</font></h4><ul>
+<li><strong>每次部屬請進行三步驟</strong><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean        // 清除之前建立的靜態檔案</span><br><span class="line">hexo generate     // 建立靜態頁面</span><br><span class="line">hexo deploy       // 部署至 GitHub</span><br></pre></td></tr></table></figure></li>
+</ul>
+
         </div>
 
         
