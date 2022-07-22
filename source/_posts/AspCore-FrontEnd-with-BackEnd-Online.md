@@ -8,7 +8,7 @@ category: Asp.net core
 #### **<font color='red'>1. 先在專案 底下 新增一個 wwwRoot 靜態資源資料夾(用於放打包好的前端)</font>**
 
 
-![](AspCore-FrontEnd-with-BackEnd-Online/wwwRoot.png)
+![](/2022/07/19/AspCore-FrontEnd-with-BackEnd-Online/wwwRoot.png)
 
 **<font color='red'>wwwRoot 資料夾 用於放靜態資源 所以 樣子不一樣<font>**
 
@@ -33,5 +33,5 @@ app.UseSpa(spa => {
 
 #### **<font color='red'>3. 接下來 對專案 按下發佈 之後彈出畫面 在按發佈 會打包出新的包在 bin\Release\netcoreapp3.1\punlish( 裡面的東西就是要放置到 線上 )</font>**
 
-![](AspCore-FrontEnd-with-BackEnd-Online/release.png)
-![](AspCore-FrontEnd-with-BackEnd-Online/release2.png)
+![](/2022/07/19/AspCore-FrontEnd-with-BackEnd-Online/release.png)
+![](/2022/07/19/AspCore-FrontEnd-with-BackEnd-Online/release2.png)
