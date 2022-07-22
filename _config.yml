@@ -104,4 +104,4 @@ theme: hexo-theme-Chic
 deploy:
   type: "git"
   repo: https://github.com/TeduAndy/Andyblog.github.io.git
-  branch: sh-page
+  branch: master
